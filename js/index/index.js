@@ -17,8 +17,6 @@ class AllScreen extends Component {
   };
 
   _handleRowClick(data) {
-    console.log(data);
-    
     this.props.navigation.navigate('Content', {data: data})
   }
 
@@ -80,20 +78,10 @@ const styles = StyleSheet.create({
 
 });
 
-// Scene不是Screen
-const AllScene = StackNavigator({
-  TabShow: {
-    screen: AllScreen,
-  },
-  Content: {
-    screen: ContentScene,
-  }
-})
 
-
-const Index = TabNavigator({
+const TabScene = TabNavigator({
   All: {
-    screen: AllScene,
+    screen: AllScreen,
   },
   Praise: {
     screen: PraiseScreen,
@@ -121,5 +109,19 @@ const Index = TabNavigator({
     }
   },
 });
+
+
+// Scene不是Screen
+const Index = StackNavigator({
+  Home: {
+    screen: TabScene,
+    navigationOptions: {
+      title: 'CNODE',
+    },
+  },
+  Content: {
+    screen: ContentScene,
+  }
+})
 
 export default Index
