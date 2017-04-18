@@ -4,9 +4,7 @@ import React, { Component } from 'react'
 
 import { ListView, RefreshControl, ActivityIndicator, View, StyleSheet } from 'react-native'
 
-import { ListItem } from 'react-native-elements'
-
-
+import RenderRow from './renderRow'
 
 
 class Lists extends Component {
@@ -108,11 +106,9 @@ class Lists extends Component {
       this._renderComplete = true;
     }
     return (
-      <ListItem
-        roundAvatar
-        avatar={{uri: rowData.author.avatar_url}}
-        key={Math.random()}
-        title={rowData.title}
+      <RenderRow
+        data={rowData}
+        handleClick={this._handleRowClick.bind(this, rowData)}
       />
     )
   }
@@ -141,8 +137,11 @@ class Lists extends Component {
       this._fetchData(this.fetchUri + nextPage, true);
       // console.log(this.fetchUri + this.state.page);
     }
-    
-    
+  }
+
+
+  _handleRowClick(data) {
+    this.props.handleRowClick(data);
   }
 
   render () {
@@ -153,6 +152,7 @@ class Lists extends Component {
             <RefreshControl
               refreshing={this.state.isRefreshing}
               onRefresh={this._fetchData}
+              colors={['#DE5145', '#FFCE44', '#1FA463', '#4C8BF5']}
             />
           }
           dataSource={new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.data)}

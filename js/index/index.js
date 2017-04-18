@@ -3,19 +3,30 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
-import { TabNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Icon } from 'react-native-vector-icons/Ionicons'
 
 import List from './list'
+
+import ContentScene from './contentScene'
+
 
 class AllScreen extends Component {
   static navigationOptions = {
     tabBarLabel: '全部',
   };
 
+  _handleRowClick(data) {
+    console.log(data);
+    
+    this.props.navigation.navigate('Content', {data: data})
+  }
+
   render() {
     return (
-      <List />
+      <List
+        handleRowClick={this._handleRowClick.bind(this)}
+      />
     );
   }
 }
@@ -53,25 +64,36 @@ class AskScreen extends Component {
     );
   }
 }
-class HireScreen extends Component {
-  static navigationOptions = {
-    tabBarLabel: '招聘',
-  };
+// class HireScreen extends Component {
+//   static navigationOptions = {
+//     tabBarLabel: '招聘',
+//   };
 
-  render() {
-    return (
-      <Text>2222</Text>
-    );
-  }
-}
+//   render() {
+//     return (
+//       <Text>2222</Text>
+//     );
+//   }
+// }
 
 const styles = StyleSheet.create({
 
 });
 
+// Scene不是Screen
+const AllScene = StackNavigator({
+  TabShow: {
+    screen: AllScreen,
+  },
+  Content: {
+    screen: ContentScene,
+  }
+})
+
+
 const Index = TabNavigator({
   All: {
-    screen: AllScreen,
+    screen: AllScene,
   },
   Praise: {
     screen: PraiseScreen,
@@ -82,13 +104,21 @@ const Index = TabNavigator({
   Ask: {
     screen: AskScreen,
   },
-  Hire: {
-    screen: HireScreen,
-  },
+  // Hire: {
+  //   screen: HireScreen,
+  // },
 }, {
   tabBarOptions: {
-    activeTintColor: '#e91e63',
+    activeTintColor: '#fff',
+    inactiveTintColor: '#ddd',
     showIcon: true,
+    labelStyle: {
+      fontSize: 17,
+    },
+    style: {
+      // height: 70,
+      // backgroundColor: '#fff',
+    }
   },
 });
 
